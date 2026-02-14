@@ -3,4 +3,7 @@
 *.code-workspace
 
 #node modules
-
+node_modules/
+.env
+.DS_Store
+yarn.lock

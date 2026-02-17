@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>ورود</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h2>ورود</h2>
+    <form id="loginForm">
+      <input type="email" id="email" placeholder="ایمیل" required>
+      <input type="password" id="password" placeholder="رمز عبور" required>
+      <button type="submit">ورود</button>
+    </form>
+    <p>حساب نداری؟ <a href="register.html">ثبت نام</a></p>
+  </div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          localStorage.setItem('token', data.token);
+          alert('ورود موفق!');
+          window.location.href = 'profile.html';
+        } else {
+          alert(data.message);
+        }
+      } catch (err) {
+        console.error(err);
+        alert('خطای سرور');
+      }
+    });
+  </script>
+</body>
+</html>

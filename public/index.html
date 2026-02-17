@@ -1,53 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="fa">
 <head>
-  <title>Login / Signup</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ورود / ثبت‌نام</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h2>Signup</h2>
-  <form id="signupForm">
-    <input type="email" id="signupEmail" placeholder="Email" required />
-    <input type="password" id="signupPassword" placeholder="Password" required />
-    <button type="submit">Signup</button>
-  </form>
+  <!-- Overlay -->
+  <div id="overlay" class="overlay"></div>
 
-  <h2>Login</h2>
-  <form id="loginForm">
-    <input type="email" id="loginEmail" placeholder="Email" required />
-    <input type="password" id="loginPassword" placeholder="Password" required />
-    <button type="submit">Login</button>
-  </form>
+  <div class="container">
+    <!-- Login Form -->
+    <div id="loginSection" class="form-section">
+      <h2>ورود</h2>
+      <form id="loginForm">
+        <input type="email" id="loginEmail" placeholder="ایمیل" required />
+        <div class="password-wrapper">
+          <input type="password" id="loginPassword" placeholder="رمز عبور" required />
+          <img src="assets/eye.svg" id="toggleLoginPassword" alt="نمایش/مخفی کردن رمز">
+        </div>
+        <button type="submit">ورود</button>
+      </form>
 
-  <script>
-    const signupForm = document.getElementById('signupForm');
-    signupForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const res = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: document.getElementById('signupEmail').value,
-          password: document.getElementById('signupPassword').value
-        })
-      });
-      const data = await res.json();
-      alert(JSON.stringify(data));
-    });
+      <div class="oauth-buttons">
+        <button onclick="window.location.href='/api/auth/google'">
+          <img src="assets/google.svg" alt="Google"> ورود با گوگل
+        </button>
+        <button onclick="window.location.href='/api/auth/github'">
+          <img src="assets/github.svg" alt="GitHub"> ورود با گیت‌هاب
+        </button>
+      </div>
 
-    const loginForm = document.getElementById('loginForm');
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: document.getElementById('loginEmail').value,
-          password: document.getElementById('loginPassword').value
-        })
-      });
-      const data = await res.json();
-      alert(JSON.stringify(data));
-    });
-  </script>
+      <p class="signup-text">
+        حساب کاربری ندارید؟ <span id="showSignup" class="link">ثبت‌نام</span>
+      </p>
+      <p>فراموشی رمز عبور؟ <a href="forgot-password.html">کلیک کنید</a></p>
+    </div>
+
+    <!-- Signup Form -->
+    <div id="signupSection" class="form-section" style="display:none;">
+      <h2>ثبت‌نام</h2>
+      <form id="signupForm">
+        <input type="email" id="signupEmail" placeholder="ایمیل" required />
+        <div class="password-wrapper">
+          <input type="password" id="signupPassword" placeholder="رمز عبور" required />
+          <img src="assets/eye.svg" id="toggleSignupPassword" alt="نمایش/مخفی کردن رمز">
+        </div>
+        <div class="password-wrapper">
+          <input type="password" id="signupConfirmPassword" placeholder="تکرار رمز عبور" required />
+          <img src="assets/eye.svg" id="toggleSignupConfirmPassword" alt="نمایش/مخفی کردن رمز">
+        </div>
+        <button type="submit">ثبت‌نام</button>
+      </form>
+
+      <!-- OAuth در ثبت‌نام -->
+      <div class="oauth-buttons">
+        <button onclick="window.location.href='/api/auth/google'">
+          <img src="assets/google.svg" alt="Google"> ثبت‌نام با گوگل
+        </button>
+        <button onclick="window.location.href='/api/auth/github'">
+          <img src="assets/github.svg" alt="GitHub"> ثبت‌نام با گیت‌هاب
+        </button>
+      </div>
+
+      <p class="signup-text">
+        حساب کاربری دارید؟ <span id="showLogin" class="link">ورود</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Notification -->
+  <div id="notification" class="notification"></div>
+
+  <script src="script.js"></script>
 </body>
 </html>

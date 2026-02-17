@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>پروفایل کاربر</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h2>پروفایل من</h2>
+    <div id="userInfo">در حال بارگذاری...</div>
+    <button id="logoutBtn">خروج</button>
+  </div>
+
+  <script>
+    // گرفتن توکن از query param
+    const params = new URLSearchParams(window.location.search);
+    const tokenFromUrl = params.get('token');
+
+    if (tokenFromUrl) {
+      localStorage.setItem('token', tokenFromUrl);
+      // حذف token از URL
+      window.history.replaceState({}, document.title, "/profile.html");
+    }
+
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      window.location.href = 'index.html';
+    }
+
+    // گرفتن اطلاعات کاربر
+    fetch('/api/auth/profile', {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.email) {
+        document.getElementById('userInfo').innerHTML = `
+          <p><strong>ایمیل:</strong> ${data.email}</p>
+          <p><strong>ID:</strong> ${data._id}</p>
+        `;
+      } else {
+        document.getElementById('userInfo').innerText = 'خطا در دریافت اطلاعات';
+      }
+    })
+    .catch(() => {
+      document.getElementById('userInfo').innerText = 'خطا در ارتباط با سرور';
+    });
+
+    // خروج
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('token');
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>ثبت نام</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h2>ثبت نام</h2>
+    <form id="registerForm">
+      <input type="email" id="email" placeholder="ایمیل" required>
+      <input type="password" id="password" placeholder="رمز عبور" required>
+      <button type="submit">ثبت نام</button>
+    </form>
+    <p>قبلاً حساب داری؟ <a href="login.html">ورود</a></p>
+  </div>
+
+  <script>
+    const form = document.getElementById('registerForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const res = await fetch('/api/auth/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          alert('ثبت نام موفق! توکن: ' + data.token);
+          window.location.href = 'login.html';
+        } else {
+          alert(data.message);
+        }
+      } catch (err) {
+        console.error(err);
+        alert('خطای سرور');
+      }
+    });
+  </script>
+</body>
+</html>

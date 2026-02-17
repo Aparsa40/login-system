@@ -1,9 +1,21 @@
-# vscodefiles
+# vscode
 .vscode/
 *.code-workspace
 
-#node modules
+# dependencies
 node_modules/
+
+# environment
 .env
+
+# system
 .DS_Store
-yarn.lock
+
+# logs
+logs/
+*.log
+
+# build
+dist/
+build/
+coverage/

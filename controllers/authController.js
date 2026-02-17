@@ -2,7 +2,7 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = 'supersecretkey'; // بعدا می‌ذاریم تو فایل config جدا
+const JWT_SECRET = process.env.JWT_SECRET || 'supersecretkey';
 
 exports.signup = async (req, res) => {
   const { email, password } = req.body;
